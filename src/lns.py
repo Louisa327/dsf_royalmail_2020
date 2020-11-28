@@ -23,27 +23,27 @@ class lns_class(object):
 		"""
 		This function performs the random destroy operator: it removes "lns_destroy_nb" stops from the current route.
 		"""
-		stop_list_no_depot = [stop for stop in self.stop_list if stop in self.depot_id]
-		idx_removed = sample(range(0,self.num_stops),self.lns_destroy_nb)
+		stop_list_no_depot = [stop for stop in self.stop_list if stop not in self.depot_id]
+		idx_removed = sample(range(0, self.num_stops), self.lns_destroy_nb)
 		self.stops_removed = [stop_list_no_depot[i] for i in idx_removed]
 		self.partial_stop_list = [stop for stop in self.stop_list if stop not in self.stops_removed]
 
 
 	def compute_insert_array(self, current_list, stops_insert, add_hub):
-		"""
-		This function calculates the cost of inserting the selected stop at every possible position in the partial stop list.
-		"""
-		if add_hub:
-			current_list = np.append(current_list, self.depot_id)
+			"""
+			This function calculates the cost of inserting the selected stop at every possible position in the partial stop list.
+			"""
+			if add_hub:
+				current_list = np.append(current_list, self.depot_id)
 
-		outward_array = self.puzzle.time_mtx.loc[
-			stops_insert, current_list[1:]].values  # from insert_dp to part
-		inward_array = self.puzzle.time_mtx.loc[
-			current_list[:-1], stops_insert].T.values  # from part to insert_dp
-		current_array = np.diag(
-			self.puzzle.time_mtx.loc[current_list[:-1], current_list[1:]])
-		insert_array = inward_array + outward_array - current_array
-		return insert_array
+			outward_array = self.puzzle.time_mtx.loc[
+				stops_insert, current_list[1:]].values  # from insert_dp to part
+			inward_array = self.puzzle.time_mtx.loc[
+				current_list[:-1], stops_insert].T.values  # from part to insert_dp
+			current_array = np.diag(
+				self.puzzle.time_mtx.loc[current_list[:-1], current_list[1:]])
+			insert_array = inward_array + outward_array - current_array
+			return insert_array
 
 	def update_insert_array(self):
 		"""
