@@ -61,6 +61,10 @@ def run_vrp_solver(puzzle, init_route):
             print("\t Breaking time constraints after destroy and repair")
             record_perf_df = record_perf(record_perf_df, lns_iter_count, SA_Temp, current_route, best_route)
             continue
+        # if repaired_routes.num_vans != puzzle.max_vans:
+        #     print("\t Breaking van number constraints after destroy and repair")
+        #     record_perf_df = record_perf(record_perf_df, lns_iter_count, SA_Temp, current_route, best_route)
+        #     continue
 
         ### Simulated Annealing
         if repaired_routes.total_time < best_route.total_time:
