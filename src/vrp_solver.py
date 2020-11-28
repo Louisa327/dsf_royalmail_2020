@@ -56,7 +56,11 @@ def run_vrp_solver(puzzle, init_route):
         search = lns_class(puzzle, current_route, params.lns_destroy_frac, lns_iter_count)
         repaired_routes = search.run()
 
-        ### Extra constraints?
+        ### Extra constraints
+        if repaired_routes.invalid_routes_max_time() or repaired_routes.invalid_routes_min_time():
+            print("\t Breaking time constraints after destroy and repair")
+            record_perf_df = record_perf(record_perf_df, lns_iter_count, SA_Temp, current_route, best_route)
+            continue
 
         ### Simulated Annealing
         if repaired_routes.total_time < best_route.total_time:

@@ -5,7 +5,7 @@ sample_name = "sample_050"
 ## Hard Constraints
 max_vans = 5
 max_duty = 360
-min_duty = 0
+min_duty = 90
 service_time = 5
 departure_time = "10:00"
 
