@@ -49,7 +49,7 @@ Record can be found here: https://youtu.be/XeccXJ9SI0g
 
 Clone this repo with:
 ```bash
-git clone https://github.com/fdurier/dsf_2020_royalmail.git
+git clone https://github.com/Louisa327/dsf_2020_royalmail.git
 cd dsf_2020_royalmail/
 ```
 Create Virtual **(Linux/Mac)** Environment:
