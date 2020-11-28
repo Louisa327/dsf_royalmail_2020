@@ -23,6 +23,11 @@ class lns_class(object):
 		"""
 		This function performs the random destroy operator: it removes "lns_destroy_nb" stops from the current route.
 		"""
+		stop_list_no_depot = [stop for stop in self.stop_list if stop in self.depot_id]
+		idx_removed = sample(range(0,self.num_stops),self.lns_destroy_nb)
+		self.stops_removed = [stop_list_no_depot[i] for i in idx_removed]
+		self.partial_stop_list = [stop for stop in self.stop_list if stop not in self.stops_removed]
+
 
 	def compute_insert_array(self, current_list, stops_insert, add_hub):
 		"""
@@ -79,6 +84,17 @@ class lns_class(object):
 		This function perform the greedy operator: it inserts the cheapest removed stop ats its cheapest position in the partial route.
 		This is recursively performed until all removed stops are inserted.
 		"""
+		self.insert_array = self.compute_insert_array(self.partial_stop_list, self.stops_removed, True)
+		while self.stops_removed:
+			stop_idx, insertion_idx = np.where(self.insert_array==np.amin(self.insert_array))
+			rnd_idx = randrange(len(stop_idx))
+			self.stop_idx = stop_idx[rnd_idx]
+			self.insertion_idx = insertion_idx[rnd_idx]+1
+			self.insert_stop = self.stops_removed.pop(self.stop_idx)
+			self.partial_stop_list.insert(self.insertion_idx, self.insert_stop)
+			self.update_insert_array()
+		self.new_stop_list_repair = self.partial_stop_list
+
 
 	def run(self):
 		"""
